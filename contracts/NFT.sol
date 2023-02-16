@@ -16,12 +16,19 @@ contract NFT{
     string public  symbol;
 
     uint256 Id;
-    mapping (address => uint256)  tokenholder;
 
-    // struct holderdetails {
-    //     uint id;
+    struct holderdetails {
+        uint id;
+        address holder;
+        uint256 balance;
+        address[] approved;
+    }
 
-    // }
+    mapping (address => holderdetails)  tokenholder;
+
+    mapping (uint256 => address) _tokenOwner;
+
+    mapping (address => mapping(uint256 => bool)) approval;
 
 
     constructor (string memory _name, string memory _symbol) {
@@ -34,25 +41,26 @@ contract NFT{
     // Implement the required functions from the interface here
     function balanceOf(address owner) external view  returns (uint256 balance) {
             require(owner != address(0), "address zero not valid");
-            balance = tokenholder[owner];
+            balance = tokenholder[owner].balance;
 
         
     }
 
-    function ownerOf(uint256 tokenId) external view  returns (address owner) {
-        
-    }
+    function ownerOf(uint256 tokenId) external view returns (address owner) {
+    owner = _tokenOwner[tokenId];
+}
 
     function transferFrom(address from, address to, uint256 tokenId) external  {
-        // ...
+        // require();
     }
 
     function approve(address approved, uint256 tokenId) external  {
-        // ...
+        
+
     }
 
     function getApproved(uint256 tokenId) external view  returns (address approved) {
-        // ...
+        
     }
 
     function setApprovalForAll(address operator, bool _approved) external  {

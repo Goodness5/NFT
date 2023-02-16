@@ -1,75 +1,57 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
-
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-/**
- * requirements:
- * name
- * symbol
- * id
- */
+contract Supes is ERC721, Ownable {
+    using Counters for Counters.Counter;
+    Counters.Counter private _tokenIds;
+    using Strings for uint256;
+    
+    mapping(uint256 => string) private _tokenURIs;
 
+    // Base URI
+    string private _baseURIextended;
 
-contract MyNFT is ERC721 {
-    constructor(string memory name, string memory symbol)
-ERC721(name, symbol){
+    constructor() ERC721("GOODNESS", "KG") {}
 
+    function setBaseURI(string memory baseURI_) external onlyOwner {
+        _baseURIextended = baseURI_;
+    }
 
-}
+    function _setTokenURI(uint256 tokenId, string memory _tokenURI)internal virtual{
+        require(_exists(tokenId),"ERC721Metadata: URI set of nonexistent token");
+        _tokenURIs[tokenId] = _tokenURI;
+    }
 
-    // string public  name;
-    // string public  symbol;
+    function _baseURI() internal view virtual override returns (string memory) {
+        return _baseURIextended;
+    }
 
-    // uint256 Id;
+    function tokenURI(uint256 tokenId)public view virtual override returns (string memory){
+        require(_exists(tokenId), "ERC721Metadata: URI query for nonexistent token");
 
-    // struct holderdetails {
-    //     uint id;
-    //     address holder;
-    //     uint256 balance;
-    //     address[] approved;
-    //     mapping (uint256 => address) amountapproved;
-    // }
+        string memory _tokenURI = _tokenURIs[tokenId];
+        string memory base = _baseURI();
 
-    // mapping (address => holderdetails)  tokenholder;
-    // mapping (uint256 => address) _tokenOwner;
-    // mapping (uint256 => address) _tokenOwner;
+        // If there is no base URI, return the token URI.
+        if (bytes(base).length == 0) {
+            return _tokenURI;
+        }
+        // If both are set, concatenate the baseURI and tokenURI (via abi.encodePacked).
+        if (bytes(_tokenURI).length > 0) {
+            return string(abi.encodePacked(base, _tokenURI));
+        }
+        // If there is a baseURI but no tokenURI, concatenate the tokenID to the baseURI.
+        return string(abi.encodePacked(base, tokenId.toString()));
+    }
 
-    // mapping (address => mapping(uint256 => bool)) approval;
-
-
-//     // Implement the required functions from the interface here
-//     function balanceOf(address owner) external view  returns (uint256 balance) {
-//             require(owner != address(0), "address zero not valid");
-//             balance = tokenholder[owner].balance;
-
-        
-//     }
-
-//     function ownerOf(uint256 tokenId) external view returns (address owner) {
-//     owner = _tokenOwner[tokenId];
-// }
-
-//     function transferFrom(address from, address to, uint256 tokenId) external  {
-//         // require();
-//     }
-
-//     function approve(address approved, uint256 tokenId) external  {
-        
-
-//     }
-
-//     function getApproved(uint256 tokenId) external view  returns (address approved) {
-        
-//     }
-
-//     function setApprovalForAll(address operator, bool _approved) external  {
-//         // ...
-//     }
-
-//     function isApprovedForAll(address owner, address operator) external view  returns (bool) {
-//         // ...
-//     }
-
-
+    function mintNFT(address recipient, string memory _tokenURI) public onlyOwner returns (uint256){
+        _tokenIds.increment();
+        uint256 newItemId = _tokenIds.current();
+        _mint(recipient, newItemId);
+        _setTokenURI(newItemId, _tokenURI);
+        return newItemId;
+    }
 }

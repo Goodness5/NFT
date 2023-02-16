@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-import {IERC721} from "./INFT.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 /**
@@ -17,7 +16,6 @@ contract MyNFT is ERC721 {
 ERC721(name, symbol){
 
 
-}
 }
 
     // string public  name;
@@ -38,13 +36,6 @@ ERC721(name, symbol){
     // mapping (uint256 => address) _tokenOwner;
 
     // mapping (address => mapping(uint256 => bool)) approval;
-
-
-    constructor (string memory _name, string memory _symbol) {
-      
-      name =_name;
-      symbol = _symbol;
-    }
 
 
 //     // Implement the required functions from the interface here
@@ -79,4 +70,6 @@ ERC721(name, symbol){
 //     function isApprovedForAll(address owner, address operator) external view  returns (bool) {
 //         // ...
 //     }
+
+
 }

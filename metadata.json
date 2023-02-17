@@ -1,0 +1,15 @@
+{
+    "name": "Sweet sis",
+    "description": "This is a one-of-a-kind digital collectible!",
+    "image": "https://ipfs.filebase.io/ipfs/QmSftbm4t31vdRresD6DirkknMpyz818UhLFfrvEvXGebK",
+    "attributes": [
+      {
+        "trait_type": "Color",
+        "value": "Gold"
+      },
+      {
+        "trait_type": "Rarity",
+        "value": "Legendary"
+      }
+    ]
+  }

@@ -1,11 +1,16 @@
+import { Signer } from "ethers";
 import { ethers } from "hardhat";
 
 async function main() {
     const superman = await ethers.getContractFactory("NFT");
+    const [me] = await ethers.getSigners();
+    
     const Superman = await superman.deploy();
     await Superman.deployed()
-    const txReceipt = await ethers.provider.waitForTransaction(txHash);
-    console.log(“Contract deployed to address:”,  txReceipt.contractAddress);
+    const supes = Superman.address;
+    console.log(`Contract deployed to address:,  ${supes}`);
+
+    const mint = await Superman.connect(me).mintNFT(me.address, )
 }
 
 // We recommend this pattern to be able to use async/await everywhere

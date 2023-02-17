@@ -11,7 +11,9 @@ const config: HardhatUserConfig = {
   networks: {
 
       hardhat: {
-        
+        goerli: {
+            url: process.env.GOERLI_RPC,
+        },
         forking: {
           //@ts-ignore
           url: process.env.MAINETURL,

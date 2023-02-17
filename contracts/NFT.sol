@@ -4,7 +4,8 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Supes is ERC721, Ownable {
+contract Supes is ERC721{
+
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
     using Strings for uint256;
@@ -13,11 +14,21 @@ contract Supes is ERC721, Ownable {
 
     // Base URI
     string private _baseURIextended;
+    address private owner;
 
-    constructor() ERC721("GOODNESS", "KG") {}
+   
+    constructor() ERC721("GOODNESS", "KG") {
+        owner = msg.sender;
+    }
+     modifier onlyowner {
+        require(msg.sender == owner, "onlyowner can perform this function");
 
-    function setBaseURI(string memory baseURI_) external onlyOwner {
+        _;
+    }
+
+    function setBaseURI(string memory baseURI_) external onlyowner {
         _baseURIextended = baseURI_;
+        
     }
 
     function _setTokenURI(uint256 tokenId, string memory _tokenURI)internal virtual{
@@ -47,7 +58,7 @@ contract Supes is ERC721, Ownable {
         return string(abi.encodePacked(base, tokenId.toString()));
     }
 
-    function mintNFT(address recipient, string memory _tokenURI) public onlyOwner returns (uint256){
+    function mintNFT(address recipient, string memory _tokenURI) public onlyowner returns (uint256){
         _tokenIds.increment();
         uint256 newItemId = _tokenIds.current();
         _mint(recipient, newItemId);

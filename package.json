@@ -6,8 +6,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Goodness5/NFT.git"
+  },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Goodness5/NFT/issues"
+  },
+  "homepage": "https://github.com/Goodness5/NFT#readme",
   "devDependencies": {
     "@ethersproject/abi": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
@@ -29,9 +37,5 @@
     "ts-node": "^10.9.1",
     "typechain": "^8.1.1",
     "typescript": "^4.9.5"
-  },
-  "dependencies": {
-    "@openzeppelin/contracts": "^4.8.1",
-    "dotenv": "^16.0.3"
   }
 }
